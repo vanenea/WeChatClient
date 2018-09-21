@@ -1,4 +1,4 @@
-package com.chen.client.utils;
+package com.chen.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

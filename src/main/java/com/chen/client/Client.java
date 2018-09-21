@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.chen.client.utils.Config;
+import com.chen.utils.Config;
 
 public class Client {
 
