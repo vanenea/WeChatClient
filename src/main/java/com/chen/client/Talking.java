@@ -1,5 +1,8 @@
 package com.chen.client;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.chen.model.Login;
 
 /**
@@ -9,9 +12,11 @@ import com.chen.model.Login;
  */
 public class Talking {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(Talking.class);
 	private LinkInfo linkInfo = new LinkInfo();
 	
 	public void showLogin() {
+		LOGGER.info("启动登录");
 		this.linkInfo.setLogin(new Login(this.linkInfo));
 	}
 	

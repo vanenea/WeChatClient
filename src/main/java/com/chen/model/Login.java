@@ -20,7 +20,13 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.chen.client.GetServerInfo;
 import com.chen.client.LinkInfo;
+import com.chen.utils.IOUtils;
+import com.chen.utils.RequestCommand;
 
 /**
  * 登录框
@@ -29,6 +35,8 @@ import com.chen.client.LinkInfo;
  */
 public class Login {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(Login.class);
+	
 	private JFrame jFrame = null;
 	private JPanel jPanel = null;
 	private JLabel username = null;
@@ -40,6 +48,7 @@ public class Login {
 	private InputStream in;
 	private OutputStream out;
 	private LinkInfo linkInfo;
+	private GetServerInfo gsi;
 	
 	public Login(LinkInfo linkInfo) {
 		this.setLinkInfo(linkInfo);
@@ -120,8 +129,37 @@ public class Login {
 		}
 		return register;
 	}
+	
+	/**
+	 * 登录操作
+	 */
 	private void doLogin() {
-		
+		try {
+			if(this.linkInfo.initSocket()) {
+				if(this.getLinkInfo() != null) {
+					String u = iusername.getText();
+					String p = ipassword.getPassword().toString();
+					if(u!=null && !"".equals(u) && p!=null && !"".equals(p)) {
+						if(gsi == null) {
+							gsi = new GetServerInfo(linkInfo);
+							new Thread(gsi).start();
+						}
+						if(in == null)
+							in = linkInfo.getSocket().getInputStream();
+						if(out == null)
+							out = linkInfo.getSocket().getOutputStream();
+						IOUtils.writeShort(out, RequestCommand.LOGIN);
+						IOUtils.writeString(out, u);
+						IOUtils.writeString(out, p);
+					} else {
+						LOGGER.info("用户名或密码为空");
+					}
+				}
+			}
+			
+		} catch (Exception e) {
+			LOGGER.error("登录异常", e);
+		}
 	}
 	private void doReg() {
 		
