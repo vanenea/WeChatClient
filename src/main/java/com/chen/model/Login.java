@@ -135,28 +135,26 @@ public class Login {
 	 */
 	private void doLogin() {
 		try {
-			if(this.linkInfo.initSocket()) {
-				if(this.getLinkInfo() != null) {
-					String u = iusername.getText();
-					String p = ipassword.getPassword().toString();
-					if(u!=null && !"".equals(u) && p!=null && !"".equals(p)) {
-						if(gsi == null) {
-							gsi = new GetServerInfo(linkInfo);
-							new Thread(gsi).start();
-						}
-						if(in == null)
-							in = linkInfo.getSocket().getInputStream();
-						if(out == null)
-							out = linkInfo.getSocket().getOutputStream();
-						IOUtils.writeShort(out, RequestCommand.LOGIN);
-						IOUtils.writeString(out, u);
-						IOUtils.writeString(out, p);
-					} else {
-						LOGGER.info("用户名或密码为空");
+			this.linkInfo.initSocket();
+			if(this.getLinkInfo() != null) {
+				String u = iusername.getText();
+				String p = String.valueOf(ipassword.getPassword());
+				if(u!=null && !"".equals(u) && p!=null && !"".equals(p)) {
+					if(gsi == null) {
+						gsi = new GetServerInfo(linkInfo);
+						new Thread(gsi).start();
 					}
+					if(in == null)
+						in = linkInfo.getSocket().getInputStream();
+					if(out == null)
+						out = linkInfo.getSocket().getOutputStream();
+					IOUtils.writeShort(out, RequestCommand.LOGIN);
+					IOUtils.writeString(out, u);
+					IOUtils.writeString(out, p);
+				} else {
+					LOGGER.info("用户名或密码为空");
 				}
 			}
-			
 		} catch (Exception e) {
 			LOGGER.error("登录异常", e);
 		}

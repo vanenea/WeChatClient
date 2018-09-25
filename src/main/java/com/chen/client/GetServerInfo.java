@@ -38,8 +38,11 @@ public class GetServerInfo implements Runnable {
 				switch (command) {
 				case ResponseCommand.LOGIN_RESPONSE:
 					LOGGER.info("用户登录");
-					if("loginSuccess".equals(IOUtils.readString(in))) {
+					String msg = IOUtils.readString(in);
+					if("loginSuccess".equals(msg)) {
 						LOGGER.info("登录成功");
+					} else {
+						LOGGER.info(msg);
 					}
 					break;
 				default:
