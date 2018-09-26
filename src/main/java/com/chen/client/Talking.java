@@ -19,11 +19,11 @@ public class Talking {
 	public void showLogin() {
 		LOGGER.info("启动登录");
 		this.linkInfo.setLogin(new Login(this.linkInfo));
-		this.linkInfo.setAlert(new Alert());
 	}
 	
 	public static void main(String[] args) {
 		Talking talking = new Talking();
+		talking.linkInfo.setAlert(new Alert());
 		talking.showLogin();
 				
 	}

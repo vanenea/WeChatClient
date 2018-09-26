@@ -68,9 +68,10 @@ public class Login {
 			jFrame.setResizable(false);
 			jFrame.setContentPane(getJPanel());
 			jFrame.addWindowListener(new WindowAdapter() {
-
+				
+				//改为windowClosed时会有Connection Reset错误
 				@Override
-				public void windowClosed(WindowEvent e) {
+				public void windowClosing(WindowEvent e) {
 					System.exit(0);
 				}
 				
