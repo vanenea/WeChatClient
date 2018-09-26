@@ -3,6 +3,7 @@ package com.chen.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.chen.model.Alert;
 import com.chen.model.Login;
 
 /**
@@ -18,6 +19,7 @@ public class Talking {
 	public void showLogin() {
 		LOGGER.info("启动登录");
 		this.linkInfo.setLogin(new Login(this.linkInfo));
+		this.linkInfo.setAlert(new Alert());
 	}
 	
 	public static void main(String[] args) {

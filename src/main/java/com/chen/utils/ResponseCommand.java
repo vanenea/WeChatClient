@@ -1,40 +1,40 @@
 package com.chen.utils;
 /**
- * ��Ӧ�����ֵ�
+ * 响应命令字典
  * @author Xiloer
  *
  */
 public class ResponseCommand {
 	/**
-	 * ע����Ӧ
+	 * 注册响应
 	 */
 	public static final byte REG_RESPONSE = 1;
 	/**
-	 * ��½��Ӧ
+	 * 登陆响应
 	 */
 	public static final byte LOGIN_RESPONSE = REG_RESPONSE + 1;
 	/**
-	 * ˢ���û��б�
+	 * 刷新用户列表
 	 */
 	public static final byte USER_LIST_RESPONSE = LOGIN_RESPONSE + 1;
 	/**
-	 * ˽����Ӧ
+	 * 私聊响应
 	 */
 	public static final byte MESSAGE_TO_ONE_RESPONSE = USER_LIST_RESPONSE + 1;
 	/**
-	 * Ⱥ����Ӧ
+	 * 群聊响应
 	 */
 	public static final byte MESSAGE_TO_ALL_RESPONSE = MESSAGE_TO_ONE_RESPONSE + 1;
 	/**
-	 * ˽�˷����ļ�������Ӧ
+	 * 私人发送文件求情响应
 	 */
 	public static final byte FILE_TO_ONE_RESPONSE = MESSAGE_TO_ALL_RESPONSE + 1;
 	/**
-	 * �ռ��˻�ִ��Ӧ
+	 * 收件人回执响应
 	 */
 	public static final byte FILE_TO_ONE_1_RESPONSE = FILE_TO_ONE_RESPONSE + 1;
 	/**
-	 * ִ��˽�˷����ļ���Ӧ
+	 * 执行私人发送文件响应
 	 */
 	public static final byte FILE_TO_ONE_2_RESPONSE = FILE_TO_ONE_1_RESPONSE + 1;
 }

@@ -1,5 +1,6 @@
 package com.chen.model;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -50,6 +51,7 @@ public class Alert {
 			jLabel = new JLabel();
 			jLabel.setBounds(new Rectangle(15, 16, 333, 142));
 			jLabel.setEnabled(false);
+			jLabel.setForeground(Color.RED);
 			jLabel.setText("");
 			jPanel = new JPanel();
 			jPanel.setLayout(null);

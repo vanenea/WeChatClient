@@ -5,15 +5,19 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.chen.model.Alert;
 import com.chen.model.Login;
+import com.chen.model.MenuMain;
 import com.chen.utils.Config;
 
 public class LinkInfo {
 	private static final Logger LOGGER = LoggerFactory.getLogger(LinkInfo.class);
 	private Login login;
-	
+	private Alert alert;
 	private Socket socket;
+	private MenuMain menuMain;
 	
+
 	/**
 	 * 初始化连接
 	 * @return
@@ -44,5 +48,20 @@ public class LinkInfo {
 
 	public void setLogin(Login login) {
 		this.login = login;
+	}
+
+	public Alert getAlert() {
+		return alert;
+	}
+
+	public void setAlert(Alert alert) {
+		this.alert = alert;
+	}
+	public MenuMain getMenuMain() {
+		return menuMain;
+	}
+
+	public void setMenuMain(MenuMain menuMain) {
+		this.menuMain = menuMain;
 	}
 }

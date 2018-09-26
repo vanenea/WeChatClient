@@ -7,6 +7,7 @@ import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.chen.model.MenuMain;
 import com.chen.utils.IOUtils;
 import com.chen.utils.ResponseCommand;
 
@@ -33,16 +34,20 @@ public class GetServerInfo implements Runnable {
 	
 	public void run() {
 		try {
-			int command = -1;
-			while((command = in.read()) != -1){
+			short command = -1;
+			while((command = IOUtils.readShort(in)) != -1){
 				switch (command) {
 				case ResponseCommand.LOGIN_RESPONSE:
 					LOGGER.info("用户登录");
 					String msg = IOUtils.readString(in);
 					if("loginSuccess".equals(msg)) {
 						LOGGER.info("登录成功");
+						MenuMain mm = new MenuMain();
+						mm.init(this.linkInfo);
+						this.linkInfo.getLogin().closeJFrame();
 					} else {
 						LOGGER.info(msg);
+						this.linkInfo.getAlert().showAlert("<html><center><h1>登陆失败</h1>原因:"+ msg +"</center></html>");
 					}
 					break;
 				default:

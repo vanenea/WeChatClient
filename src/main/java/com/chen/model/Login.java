@@ -57,7 +57,8 @@ public class Login {
 	//关闭窗口
 	public void closeJFrame() {
 		if(jFrame!=null) {
-			jFrame.dispose();
+			this.jFrame.dispose();
+			this.linkInfo.setLogin(null);
 		}
 	}
 	public JFrame getJFrame() {
@@ -153,10 +154,12 @@ public class Login {
 					IOUtils.writeString(out, p);
 				} else {
 					LOGGER.info("用户名或密码为空");
+					linkInfo.getAlert().showAlert("用户名或密码为空");
 				}
 			}
 		} catch (Exception e) {
 			LOGGER.error("登录异常", e);
+			linkInfo.getAlert().showAlert("未知错误，请稍后重试...");
 		}
 	}
 	private void doReg() {
