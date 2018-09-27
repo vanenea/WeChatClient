@@ -50,6 +50,10 @@ public class GetServerInfo implements Runnable {
 						this.linkInfo.getAlert().showAlert("<html><center><h1>登陆失败</h1>原因:"+ msg +"</center></html>");
 					}
 					break;
+					
+				case ResponseCommand.USER_LIST_RESPONSE :
+					
+					break;
 				default:
 					break;
 				}
