@@ -70,6 +70,7 @@ public class MenuMain {
 					DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTree.getLastSelectedPathComponent();
 					if(!"我的列表".equals(selectedNode.toString())) 
 						openTalkWindow(selectedNode);
+
 				}
 			}
 			

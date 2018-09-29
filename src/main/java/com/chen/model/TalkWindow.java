@@ -1,4 +1,6 @@
-package com.chen.client;
+package com.chen.model;
+
+import com.chen.client.LinkInfo;
 
 /**
  * 聊天详情
