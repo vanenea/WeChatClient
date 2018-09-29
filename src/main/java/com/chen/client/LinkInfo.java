@@ -16,7 +16,7 @@ public class LinkInfo {
 	private Alert alert;
 	private Socket socket;
 	private MenuMain menuMain;
-	
+	private String me;
 
 	/**
 	 * 初始化连接
@@ -64,4 +64,14 @@ public class LinkInfo {
 	public void setMenuMain(MenuMain menuMain) {
 		this.menuMain = menuMain;
 	}
+
+	public String getMe() {
+		return me;
+	}
+
+	public void setMe(String me) {
+		this.me = me;
+	}
+	
+	
 }
