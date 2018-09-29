@@ -2,8 +2,9 @@ package com.chen.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,7 @@ public class GetServerInfo implements Runnable {
 	private static final Logger LOGGER = LoggerFactory.getLogger(GetServerInfo.class);
 	private LinkInfo linkInfo;
 	private InputStream in;
-	
+	private String me;
 	public GetServerInfo(LinkInfo linkInfo) {
 		this.linkInfo = linkInfo;
 		try {
@@ -44,6 +45,7 @@ public class GetServerInfo implements Runnable {
 						LOGGER.info("登录成功");
 						MenuMain mm = new MenuMain();
 						mm.init(this.linkInfo);
+						this.linkInfo.setMenuMain(mm);
 						this.linkInfo.getLogin().closeJFrame();
 					} else {
 						LOGGER.info(msg);
@@ -52,7 +54,14 @@ public class GetServerInfo implements Runnable {
 					break;
 					
 				case ResponseCommand.USER_LIST_RESPONSE :
-					
+					LOGGER.info("更新用户列表");
+					List<String> allFriend = new ArrayList<String>();
+					String[] users = IOUtils.readString(in).split(",");
+					for (int i = 0; i < users.length; i++) {
+						allFriend.add(users[i]);
+					}
+					MenuMain mm = this.linkInfo.getMenuMain();
+					mm.showAllfriend(allFriend);
 					break;
 				default:
 					break;

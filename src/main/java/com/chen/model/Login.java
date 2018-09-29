@@ -49,7 +49,7 @@ public class Login {
 	private OutputStream out;
 	private LinkInfo linkInfo;
 	private GetServerInfo gsi;
-	
+	private String me;
 	public Login(LinkInfo linkInfo) {
 		this.setLinkInfo(linkInfo);
 		this.getJFrame().setVisible(true);;
@@ -150,6 +150,7 @@ public class Login {
 						in = linkInfo.getSocket().getInputStream();
 					if(out == null)
 						out = linkInfo.getSocket().getOutputStream();
+					this.linkInfo.setMe(u);
 					IOUtils.writeShort(out, RequestCommand.LOGIN);
 					IOUtils.writeString(out, u);
 					IOUtils.writeString(out, p);

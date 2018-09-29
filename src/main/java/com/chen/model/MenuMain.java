@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.chen.client.LinkInfo;
 
@@ -31,18 +34,60 @@ public class MenuMain {
 	private JButton jButtonFind;
 	private JScrollPane jScrollPane;
 	private JTree jTree;
-	private List<String> users = new ArrayList<String>();
 	private LinkInfo linkInfo;
+	private List<String> allFriend;
+	private List<TreeInfor> treeInfor = new ArrayList<TreeInfor>();
 	
 	public MenuMain() {
 		this.getJFrame().setVisible(true);
 	}
 	
+	/**
+	 * 初始化参数
+	 * @param linkInfo
+	 */
 	public void init(LinkInfo linkInfo) {
 		this.linkInfo = linkInfo;
 		this.linkInfo.setMenuMain(this);
 	}
 	
+	/**
+	 * 显示员工
+	 */
+	public void showAllfriend(List<String> allFriend) {
+		this.allFriend = allFriend;
+		jScrollPane.setViewportView(getJTree(initTree()));
+	}
+	
+	private Component getJTree(DefaultMutableTreeNode node) {
+		jTree = new JTree(node);
+		jTree.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//双击打开聊天框
+				if(e.getClickCount()==2) {
+					
+					openTalkWindow();
+				}
+			}
+			
+		});
+		return jTree;
+	}
+
+	private DefaultMutableTreeNode initTree() {
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("我的列表");
+		allFriend.clear();
+		for (String user : allFriend) {
+			DefaultMutableTreeNode first = new DefaultMutableTreeNode(user);
+			root.add(first);
+			TreeInfor ti = new TreeInfor(user, first);
+			treeInfor.add(ti);
+		}
+		return root;
+	}
+
 	private JFrame getJFrame() {
 		if(jFrame == null) {
 			jFrame = new JFrame();
@@ -89,7 +134,7 @@ public class MenuMain {
 				public void actionPerformed(ActionEvent e) {
 					openTalkWindow();
 				}
-
+				
 			});
 		}
 		return jButtonFind;
@@ -98,4 +143,6 @@ public class MenuMain {
 	private void openTalkWindow() {
 		
 	}
+	
+	
 }
