@@ -69,7 +69,7 @@ public class GetServerInfo implements Runnable {
 				}
 			}
 		} catch (Exception e) {
-			
+			LOGGER.error("", e);
 		}
 	}
 

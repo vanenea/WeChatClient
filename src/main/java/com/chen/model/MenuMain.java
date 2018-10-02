@@ -80,7 +80,6 @@ public class MenuMain {
 
 	private DefaultMutableTreeNode initTree() {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("我的列表");
-		allFriend.clear();
 		for (String user : allFriend) {
 			DefaultMutableTreeNode first = new DefaultMutableTreeNode(user);
 			root.add(first);
@@ -145,9 +144,20 @@ public class MenuMain {
 	private void openTalkWindow(DefaultMutableTreeNode node) {
 		//群聊
 		if(node==null) {
+			if(!checkIsOpen("ALL")) {
+				TalkWindow tw = new TalkWindow(this.linkInfo);
+			}
+		} else {
 			
 		}
 	}
 	
-	
+	private boolean checkIsOpen(String target) {
+		for (TreeInfor treeInfor : treeInfor) {
+			if(target.equals(treeInfor.getUser())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

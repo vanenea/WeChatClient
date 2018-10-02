@@ -12,5 +12,12 @@ public class TalkWindow {
 	private LinkInfo linkInfo;
 	private String me;
 	private String target;
+	public TalkWindow() {
+		super();
+	}
+	public TalkWindow(LinkInfo linkInfo) {
+		this.linkInfo = linkInfo;
+	}
+	
 	
 }
