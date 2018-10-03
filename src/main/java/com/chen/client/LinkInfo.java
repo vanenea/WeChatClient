@@ -1,6 +1,8 @@
 package com.chen.client;
 
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.chen.model.Alert;
 import com.chen.model.Login;
 import com.chen.model.MenuMain;
+import com.chen.model.TalkWindow;
 import com.chen.utils.Config;
 
 public class LinkInfo {
@@ -17,7 +20,7 @@ public class LinkInfo {
 	private Socket socket;
 	private MenuMain menuMain;
 	private String me;
-
+	private List<TalkWindow> TalkWindow = new ArrayList<TalkWindow>();
 	/**
 	 * 初始化连接
 	 * @return
@@ -71,6 +74,14 @@ public class LinkInfo {
 
 	public void setMe(String me) {
 		this.me = me;
+	}
+
+	public List<TalkWindow> getTalkWindow() {
+		return TalkWindow;
+	}
+
+	public void setTalkWindow(List<TalkWindow> talkWindow) {
+		TalkWindow = talkWindow;
 	}
 	
 	

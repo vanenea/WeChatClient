@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.chen.model.MenuMain;
+import com.chen.model.TalkWindow;
 import com.chen.utils.IOUtils;
 import com.chen.utils.ResponseCommand;
 
@@ -64,6 +65,20 @@ public class GetServerInfo implements Runnable {
 					MenuMain mm = this.linkInfo.getMenuMain();
 					mm.showAllfriend(allFriend);
 					break;
+				
+				case ResponseCommand.MESSAGE_TO_ALL_RESPONSE:
+					LOGGER.info("群聊信息");
+					String fromUser = IOUtils.readString(in);
+					String message = IOUtils.readString(in);
+					TalkWindow tw = getTalkWindow("ALL");
+					tw.showTalkWindow(fromUser, message);
+					
+				case ResponseCommand.MESSAGE_TO_ONE_RESPONSE:
+					LOGGER.info("私聊信息");
+					String fromUsr = IOUtils.readString(in);
+					String mesg = IOUtils.readString(in);
+					TalkWindow twa = getTalkWindow(fromUsr);
+					twa.showTalkWindow(fromUsr, mesg);
 				default:
 					break;
 				}
@@ -71,6 +86,24 @@ public class GetServerInfo implements Runnable {
 		} catch (Exception e) {
 			LOGGER.error("", e);
 		}
+	}
+
+	/**
+	 * 窗口
+	 * @param string
+	 * @return
+	 */
+	private TalkWindow getTalkWindow(String string) {
+		TalkWindow tw = null;
+		List<TalkWindow> talkWindow = this.linkInfo.getTalkWindow();
+		for (TalkWindow talk : talkWindow) {
+			if(talk.getTarget().equals(string)) {
+				return talk;
+			}
+		}
+		tw = new TalkWindow(string, linkInfo);
+		this.linkInfo.getTalkWindow().add(tw);
+		return tw;
 	}
 
 }
