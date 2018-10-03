@@ -146,9 +146,13 @@ public class MenuMain {
 		if(node==null) {
 			if(!checkIsOpen("ALL")) {
 				TalkWindow tw = new TalkWindow(this.linkInfo);
+				
 			}
 		} else {
-			
+			if(!checkIsOpen(node.toString())) {
+				TalkWindow tw = new TalkWindow(this.linkInfo);
+				
+			}
 		}
 	}
 	
