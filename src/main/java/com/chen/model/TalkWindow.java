@@ -11,11 +11,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -164,7 +166,41 @@ public class TalkWindow {
 	 * 发送文件
 	 */
 	private void sendFile() {
-		
+		JFileChooser jFile = new JFileChooser();
+		jFile.showOpenDialog(null);
+		File file = jFile.getSelectedFile();
+		if(file!=null) {
+			this.sendFile = file;
+			this.jTextArea.setText(this.jTextArea.getText()+"开始传送文件...\n");
+			new Runnable() {
+				public void run() {
+					FileInputStream fis = null;
+					try {
+						IOUtils.writeShort(linkInfo.getSocket().getOutputStream(), RequestCommand.SEND_FILE);
+						IOUtils.writeString(linkInfo.getSocket().getOutputStream(), target);
+						IOUtils.writeString(linkInfo.getSocket().getOutputStream(), linkInfo.getMe());
+						IOUtils.writeLong(linkInfo.getSocket().getOutputStream(), sendFile.length());
+						byte[] buf = new byte[1024*10];
+						int len = -1;
+						fis = new FileInputStream(sendFile);
+						while((len = fis.read(buf)) != -1) {
+							linkInfo.getSocket().getOutputStream().write(buf, 0, len);
+						}
+					} catch (IOException e) {
+						LOGGER.error("发送文件失败", e);
+					} finally {
+						if(fis != null) {
+							try {
+								fis.close();
+							} catch (IOException e) {
+								LOGGER.error("关闭文件失败", e);
+							}
+						}
+					}
+					
+				}
+			};
+		}
 	}
 	
 	/**

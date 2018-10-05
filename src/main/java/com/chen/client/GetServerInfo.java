@@ -37,6 +37,7 @@ public class GetServerInfo implements Runnable {
 	public void run() {
 		try {
 			short command = -1;
+			String fromUser;
 			while((command = IOUtils.readShort(in)) != -1){
 				switch (command) {
 				case ResponseCommand.LOGIN_RESPONSE:
@@ -68,17 +69,21 @@ public class GetServerInfo implements Runnable {
 				
 				case ResponseCommand.MESSAGE_TO_ALL_RESPONSE:
 					LOGGER.info("群聊信息");
-					String fromUser = IOUtils.readString(in);
+					fromUser = IOUtils.readString(in);
 					String message = IOUtils.readString(in);
 					TalkWindow tw = getTalkWindow("ALL");
 					tw.showTalkWindow(fromUser, message);
 					
 				case ResponseCommand.MESSAGE_TO_ONE_RESPONSE:
 					LOGGER.info("私聊信息");
-					String fromUsr = IOUtils.readString(in);
+					fromUser = IOUtils.readString(in);
 					String mesg = IOUtils.readString(in);
-					TalkWindow twa = getTalkWindow(fromUsr);
-					twa.showTalkWindow(fromUsr, mesg);
+					TalkWindow twa = getTalkWindow(fromUser);
+					twa.showTalkWindow(fromUser, mesg);
+					
+				case ResponseCommand.FILE_TO_ONE_RESPONSE:
+					LOGGER.info("接收文件");
+					
 				default:
 					break;
 				}
