@@ -145,7 +145,7 @@ public class MenuMain {
 		//群聊
 		if(node==null) {
 			if(!checkIsOpen("ALL")) {
-				TalkWindow tw = new TalkWindow("AL", this.linkInfo);
+				TalkWindow tw = new TalkWindow("ALL", this.linkInfo);
 				this.linkInfo.getTalkWindow().add(tw);
 			}
 		} else {

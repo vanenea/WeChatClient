@@ -12,7 +12,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -172,13 +174,14 @@ public class TalkWindow {
 		if(file!=null) {
 			this.sendFile = file;
 			this.jTextArea.setText(this.jTextArea.getText()+"开始传送文件...\n");
-			new Runnable() {
+			new Thread() {
 				public void run() {
 					FileInputStream fis = null;
 					try {
 						IOUtils.writeShort(linkInfo.getSocket().getOutputStream(), RequestCommand.SEND_FILE);
 						IOUtils.writeString(linkInfo.getSocket().getOutputStream(), target);
 						IOUtils.writeString(linkInfo.getSocket().getOutputStream(), linkInfo.getMe());
+						IOUtils.writeString(linkInfo.getSocket().getOutputStream(), sendFile.getName());
 						IOUtils.writeLong(linkInfo.getSocket().getOutputStream(), sendFile.length());
 						byte[] buf = new byte[1024*10];
 						int len = -1;
@@ -199,7 +202,7 @@ public class TalkWindow {
 					}
 					
 				}
-			};
+			}.start();
 		}
 	}
 	
@@ -262,6 +265,60 @@ public class TalkWindow {
 		return false;
 	}
 	
+	public void getFile() {
+		FileOutputStream fos = null ;
+		try {
+			InputStream in = this.linkInfo.getSocket().getInputStream();
+			OutputStream out = this.linkInfo.getSocket().getOutputStream();
+			JFileChooser jf = new JFileChooser();
+			JTextField jtf = getTextField(jf);
+			jtf.setText(IOUtils.readString(in));
+			jf.showSaveDialog(null);
+			this.getFile = jf.getSelectedFile();
+			long length = IOUtils.readLong(in);
+			byte[] buf = new byte[(int)(1024>length?length:1024)];
+			long sum = 0;
+			fos = new FileOutputStream(getFile);
+			while(true) {
+				in.read(buf);
+				fos.write(buf);
+				sum += buf.length;
+				if( sum>= length) {
+					break;
+				}
+				buf = new byte[(int)(1024>(length-sum)?(length-sum):1024)];
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if(fos != null) {
+				try {
+					fos.close();
+				} catch (IOException e) {
+					LOGGER.error("关闭文件失败", e);
+				}
+			}
+		}
+	}
+	
+	private JTextField getTextField(Container con) {
+		JTextField jtf = null;
+		for (int i = 0; i < con.getComponentCount(); i++) {
+			Component component = con.getComponent(i);
+			if(component instanceof JTextField) {
+				return (JTextField)component;
+			}
+			if(component instanceof Container) {
+				jtf = getTextField((Container)component);
+				if(jtf!=null) {
+					return jtf;
+					
+				}
+			}
+		}
+		return jtf;
+	}
 	public String getTarget() {
 		return target;
 	}

@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +85,9 @@ public class GetServerInfo implements Runnable {
 					
 				case ResponseCommand.FILE_TO_ONE_RESPONSE:
 					LOGGER.info("接收文件");
-					
+					fromUser = IOUtils.readString(in);
+					TalkWindow twaa = getTalkWindow(fromUser);
+					twaa.getFile();
 				default:
 					break;
 				}
